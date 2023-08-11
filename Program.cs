@@ -1,43 +1,87 @@
 ﻿namespace Logical_Programming1
 {
-    internal class CouponNumber
+    internal class StopWatchProgram
     {
-        public class CouponNumberExample
+        public class StopWatchProgramExample
         {
-            private static int GenerateRandomNumber(int min, int max)
+            class StopwatchProgram
             {
-                Random random = new Random();
-                return random.Next(min, max);
-            }
+                private DateTime startTime;
+                private DateTime endTime;
+                private bool isRunning;
 
-            public static int GenerateDistinctCouponNumbers(int n)
-            {
-                HashSet<int> distinctCoupons = new HashSet<int>();
-                int totalRandomNumbers = 0;
-
-                while (distinctCoupons.Count < n)
+                public void Start()
                 {
-                    int randomNumber = GenerateRandomNumber(1, n + 1);
-                    totalRandomNumbers++;
-
-                    if (!distinctCoupons.Contains(randomNumber))
+                    if (!isRunning)
                     {
-                        distinctCoupons.Add(randomNumber);
+                        startTime = DateTime.Now;
+                        isRunning = true;
+                        Console.WriteLine("Stopwatch started.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Stopwatch is already running.");
                     }
                 }
 
-                return totalRandomNumbers;
-            }
+                public void Stop()
+                {
+                    if (isRunning)
+                    {
+                        endTime = DateTime.Now;
+                        isRunning = false;
+                        Console.WriteLine("Stopwatch stopped.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Stopwatch is not running.");
+                    }
+                }
 
-            public static void Main(string[] args)
-            {
-                Console.Write("Enter the number of distinct coupon numbers: ");
-                int n = int.Parse(Console.ReadLine());
+                public TimeSpan GetElapsedTime()
+                {
+                    if (isRunning)
+                    {
+                        return DateTime.Now - startTime;
+                    }
+                    else
+                    {
+                        return endTime - startTime;
+                    }
+                }
 
-                int totalRandomNumbers = GenerateDistinctCouponNumbers(n);
-                Console.WriteLine($"Total random numbers needed to have all distinct coupon numbers: {totalRandomNumbers}");
+                public static void Main(string[] args)
+                {
+                    StopwatchProgram stopwatch = new StopwatchProgram();
+
+                    Console.WriteLine("Press 's' to start the stopwatch, 'e' to end it, and 'q' to quit.");
+
+                    while (true)
+                    {
+                        char input = Console.ReadKey().KeyChar;
+                        Console.WriteLine();
+
+                        if (input == 's')
+                        {
+                            stopwatch.Start();
+                        }
+                        else if (input == 'e')
+                        {
+                            stopwatch.Stop();
+                            TimeSpan elapsed = stopwatch.GetElapsedTime();
+                            Console.WriteLine($"Elapsed time: {elapsed.TotalSeconds} seconds");
+                        }
+                        else if (input == 'q')
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input.");
+                        }
+                    }
+                }
             }
         }
-
     }
 }
