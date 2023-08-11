@@ -1,25 +1,43 @@
 ﻿namespace Logical_Programming1
 {
-    internal class ReversetNumber
+    internal class CouponNumber
     {
-        public class ReverseNumberExample
+        public class CouponNumberExample
         {
-            public class ReverseExample
+            private static int GenerateRandomNumber(int min, int max)
             {
-                public static void Main(string[] args)
+                Random random = new Random();
+                return random.Next(min, max);
+            }
+
+            public static int GenerateDistinctCouponNumbers(int n)
+            {
+                HashSet<int> distinctCoupons = new HashSet<int>();
+                int totalRandomNumbers = 0;
+
+                while (distinctCoupons.Count < n)
                 {
-                    int n, reverse = 0, rem;
-                    Console.Write("Enter a number: ");
-                    n = int.Parse(Console.ReadLine());
-                    while (n != 0)
+                    int randomNumber = GenerateRandomNumber(1, n + 1);
+                    totalRandomNumbers++;
+
+                    if (!distinctCoupons.Contains(randomNumber))
                     {
-                        rem = n % 10;
-                        reverse = reverse * 10 + rem;
-                        n /= 10;
+                        distinctCoupons.Add(randomNumber);
                     }
-                    Console.Write("Reversed Number: " + reverse);
                 }
+
+                return totalRandomNumbers;
+            }
+
+            public static void Main(string[] args)
+            {
+                Console.Write("Enter the number of distinct coupon numbers: ");
+                int n = int.Parse(Console.ReadLine());
+
+                int totalRandomNumbers = GenerateDistinctCouponNumbers(n);
+                Console.WriteLine($"Total random numbers needed to have all distinct coupon numbers: {totalRandomNumbers}");
             }
         }
+
     }
 }
